@@ -1,0 +1,22 @@
+{
+  "name": "js-calculator",
+  "version": "1.0.0",
+  "description": "A extendable calculator written in HTML/CSS/Javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mauriciosoares/js-calculator.git"
+  },
+  "keywords": [
+    "calculator"
+  ],
+  "author": "Mauricio Soares",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mauriciosoares/js-calculator/issues"
+  },
+  "homepage": "https://github.com/mauriciosoares/js-calculator"
+}
