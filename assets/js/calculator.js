@@ -43,6 +43,12 @@
 
   Calculator.prototype.bind = function() {
     this.$content.find('[data-calculator-button]').on('click', this.onNumberClick.bind(this));
+    this.$content.find('[data-calculator-reset]').on('click', this.onResetClick.bind(this));
+  };
+
+  Calculator.prototype.onResetClick = function() {
+    this.n = '0';
+    this.render();
   };
 
   Calculator.prototype.onNumberClick = function(event) {
@@ -52,10 +58,19 @@
     this.render();
   };
 
-  Calculator.prototype.render = function() {
+  Calculator.prototype.parseN = function() {
+    var nSplit;
+    // this removes leading zeros
     if(this.n.length > 1 && this.n[0] === '0') this.n = this.n.substr(1);
 
-    this.$screen.val(parseFloat(this.n));
+    // this checks if the number has more than one dot.
+    // If it has, this ignores the later added dots.
+    if(this.n.split('.').length > 2) this.n = this.n.substr(0, this.n.length -1);
+  };
+
+  Calculator.prototype.render = function() {
+    this.parseN();
+    this.$screen.val(this.n);
   };
 
 
