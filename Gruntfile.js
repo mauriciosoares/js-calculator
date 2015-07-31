@@ -6,8 +6,8 @@ module.exports = function(grunt) {
     'grunt-contrib-concat',
     'grunt-contrib-connect',
     'grunt-contrib-jshint',
-    'grunt-contrib-uglify',
-    'grunt-contrib-watch'
+    'grunt-contrib-watch',
+    'grunt-sass'
   ];
 
   // =============================================
@@ -21,7 +21,6 @@ module.exports = function(grunt) {
     }
   }
 
-
   // =============================================
   // concat
   config.concat = {
@@ -29,7 +28,7 @@ module.exports = function(grunt) {
       src: [
         'assets/js/calculator.js'
       ],
-      dest: 'dist/calculator.js'
+      dest: 'public/js/calculator.js'
     }
   };
 
@@ -40,16 +39,38 @@ module.exports = function(grunt) {
     debug: true,
     sub: true
   };
-  config.jshint.all = ['dist/calculator.js'];
+  config.jshint.all = ['public/js/calculator.js'];
 
   // =============================================
   // watch
   config.watch = {};
-  config.watch.scripts = {
+  config.watch.js = {
     files: ['assets/js/**/*.js'],
     tasks: ['concat', 'jshint'],
     options: {
+      spawn: false
+    }
+  };
+
+  config.watch.sass = {
+    files: ['assets/sass/**/*.sass'],
+    tasks: ['sass'],
+    options: {
       spawn: false,
+      livereload: true
+    }
+  };
+
+  // =============================================
+  // sass
+  config.sass = {
+    options: {
+      sourceMap: true
+    },
+    dist: {
+      files: {
+        'public/css/main.css': 'assets/sass/main.sass'
+      }
     }
   };
 
