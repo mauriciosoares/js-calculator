@@ -3,7 +3,6 @@ module.exports = function(grunt) {
 
   var config = {};
   var tasks = [
-    'grunt',
     'grunt-contrib-concat',
     'grunt-contrib-connect',
     'grunt-contrib-jshint',
@@ -12,14 +11,23 @@ module.exports = function(grunt) {
   ];
 
   // =============================================
+  // connect
+  config.connect = {};
+  config.connect.server = {
+    options: {
+      base: 'public',
+      port: 8000,
+      hostname: '*'
+    }
+  }
+
+
+  // =============================================
   // concat
   config.concat = {
-    options: {
-      banner: app.banner
-    },
     dist: {
       src: [
-        'calculator/calculator.js'
+        'assets/js/calculator.js'
       ],
       dest: 'dist/calculator.js'
     }
@@ -38,10 +46,17 @@ module.exports = function(grunt) {
   // watch
   config.watch = {};
   config.watch.scripts = {
-    files: ['calculator/**/*.js'],
+    files: ['assets/js/**/*.js'],
     tasks: ['concat', 'jshint'],
     options: {
       spawn: false,
     }
-  }
+  };
+
+  // loads all tasks
+  tasks.forEach(grunt.loadNpmTasks);
+
+  grunt.initConfig(config);
+
+  grunt.registerTask('develop', ['connect', 'watch'])
 }
