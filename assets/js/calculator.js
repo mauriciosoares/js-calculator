@@ -1,49 +1,44 @@
-(function(root, $) {
+(function(root, $, Button) {
   'use strict';
-
-  /*
-    this could easily be replaced by a template engine
-    like mustache or handlebars, but since the tests says
-    js + jquery only, that's a good approach for dealing with
-    dynamically generated content
-  */
-
-  var CALCULATOR_BASE = '<input type="text" class="screen" data-calculator-screen disabled>' +
-    '<button data-calculator-reset class="calculator-button">C</button>' +
-    '<button data-calculator-result class="calculator-button">=</button>' +
-    '<button data-calculator-button="1" class="calculator-button">1</button>' +
-    '<button data-calculator-button="2" class="calculator-button">2</button>' +
-    '<button data-calculator-button="3" class="calculator-button">3</button>' +
-    '<button data-calculator-button="4" class="calculator-button">4</button>' +
-    '<button data-calculator-button="5" class="calculator-button">5</button>' +
-    '<button data-calculator-button="6" class="calculator-button">6</button>' +
-    '<button data-calculator-button="7" class="calculator-button">7</button>' +
-    '<button data-calculator-button="8" class="calculator-button">8</button>' +
-    '<button data-calculator-button="9" class="calculator-button">9</button>' +
-    '<button data-calculator-button="0" class="calculator-button">0</button>' +
-    '<button data-calculator-button="." class="calculator-button">.</button>';
 
   function Calculator(content) {
     this.$content = $(content);
     this.fillContent();
 
     this.prepare();
-    this.bind();
     this.render();
   }
 
   Calculator.prototype.fillContent = function() {
-    this.$content.append(CALCULATOR_BASE);
+    this.$content.append($('<input type="text" class="screen" data-calculator-screen disabled>'));
+
+    var buttons = [];
+      buttons.push(this.getButtonConfig('C', this.onResetClick.bind(this)));
+      buttons.push(this.getButtonConfig('=', function() {}));
+
+
+    Array.apply(null, {length: 10}).forEach(function(item, index) {
+      buttons.push(this.getButtonConfig(index, this.onNumberClick.bind(this)));
+    }.bind(this));
+
+    buttons.push(this.getButtonConfig('.', this.onNumberClick.bind(this)));
+    buttons.forEach(this.appendButtons.bind(this));
+  };
+
+  Calculator.prototype.getButtonConfig = function(value, action) {
+    return {
+      value: value,
+      action: action
+    };
+  };
+
+  Calculator.prototype.appendButtons = function(config) {
+    this.$content.append(new Button(config).$el);
   };
 
   Calculator.prototype.prepare = function() {
     this.$screen = this.$content.find('[data-calculator-screen]');
     this.n = '0';
-  };
-
-  Calculator.prototype.bind = function() {
-    this.$content.find('[data-calculator-button]').on('click', this.onNumberClick.bind(this));
-    this.$content.find('[data-calculator-reset]').on('click', this.onResetClick.bind(this));
   };
 
   Calculator.prototype.onResetClick = function() {
@@ -52,7 +47,7 @@
   };
 
   Calculator.prototype.onNumberClick = function(event) {
-    var value = $(event.target).data('calculator-button');
+    var value = $(event.target).data('value');
 
     this.n += value;
     this.render();
@@ -75,4 +70,4 @@
 
 
   root.Calculator = Calculator;
-} (window, jQuery));
+} (window, jQuery, Button));

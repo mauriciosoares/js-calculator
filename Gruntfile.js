@@ -26,6 +26,7 @@ module.exports = function(grunt) {
   config.concat = {
     dist: {
       src: [
+        'assets/js/button.js',
         'assets/js/calculator.js'
       ],
       dest: 'public/js/calculator.js'
