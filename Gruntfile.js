@@ -27,6 +27,7 @@ module.exports = function(grunt) {
     dist: {
       src: [
         'assets/js/button.js',
+        'assets/js/screen.js',
         'assets/js/calculator.js'
       ],
       dest: 'public/js/calculator.js'
@@ -40,14 +41,14 @@ module.exports = function(grunt) {
     debug: true,
     sub: true
   };
-  config.jshint.all = ['public/js/calculator.js'];
+  config.jshint.all = ['assets/js/*.js'];
 
   // =============================================
   // watch
   config.watch = {};
   config.watch.js = {
     files: ['assets/js/**/*.js'],
-    tasks: ['concat', 'jshint'],
+    tasks: ['jshint', 'concat'],
     options: {
       spawn: false
     }

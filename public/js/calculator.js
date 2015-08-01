@@ -1,4 +1,4 @@
-(function(root, $) {
+;(function(root, $) {
   'use strict';
 
   var CLASS_NAME = 'calculator-button';
@@ -25,19 +25,44 @@
   root.Button = Button;
 } (window, jQuery));
 
-(function(root, $, Button) {
+;(function(root, $) {
+  'use strict';
+
+  var CLASS_NAME = 'screen';
+
+  function Screen() {
+    this.prepare();
+  }
+
+  Screen.prototype.prepare = function() {
+    this.$el = $('<input />', {
+      type: 'text',
+      class: CLASS_NAME,
+      disabled: true
+    });
+  };
+
+  Screen.prototype.render = function(n) {
+    this.$el.val(n);
+  };
+
+  root.Screen = Screen;
+
+} (window, jQuery));
+
+;(function(root, $, Button, Screen) {
   'use strict';
 
   function Calculator(content) {
     this.$content = $(content);
-    this.fillContent();
 
     this.prepare();
+    this.fillContent();
     this.render();
   }
 
   Calculator.prototype.fillContent = function() {
-    this.$content.append($('<input type="text" class="screen" data-calculator-screen disabled>'));
+    this.$content.append(this.screen.$el);
 
     var buttons = [];
       buttons.push(this.getButtonConfig('C', this.onResetClick.bind(this)));
@@ -64,7 +89,7 @@
   };
 
   Calculator.prototype.prepare = function() {
-    this.$screen = this.$content.find('[data-calculator-screen]');
+    this.screen = new Screen();
     this.n = '0';
   };
 
@@ -92,9 +117,9 @@
 
   Calculator.prototype.render = function() {
     this.parseN();
-    this.$screen.val(this.n);
+    this.screen.render(this.n);
   };
 
 
   root.Calculator = Calculator;
-} (window, jQuery, Button));
+} (window, jQuery, Button, Screen));
