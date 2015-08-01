@@ -12,7 +12,14 @@
   <script src="js/vendor/jquery/dist/jquery.js"></script>
   <script src="js/calculator.js"></script>
   <script>
-    new Calculator('#calculator');
+    var calculator = new Calculator('#calculator');
+    calculator.extend('COS', function(n) {
+      return Math.cos(n);
+    });
+
+    calculator.extend('+', function(n, nextN) {
+      return n + nextN;
+    });
   </script>
 
 

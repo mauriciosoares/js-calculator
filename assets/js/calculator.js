@@ -9,6 +9,12 @@
     this.render();
   }
 
+  /*
+    This guy is kinda messy, but it was a good approach to
+    dynamically render the default buttons.
+    This could be replaced by a temeplating engine like
+    handlebars or mustache.
+   */
   Calculator.prototype.fillContent = function() {
     this.$content.append(this.screen.$el);
 
@@ -22,7 +28,7 @@
     }.bind(this));
 
     buttons.push(this.getButtonConfig('.', this.onNumberClick.bind(this)));
-    buttons.forEach(this.appendButtons.bind(this));
+    buttons.forEach(this.appendButton.bind(this));
   };
 
   Calculator.prototype.getButtonConfig = function(value, action) {
@@ -32,7 +38,7 @@
     };
   };
 
-  Calculator.prototype.appendButtons = function(config) {
+  Calculator.prototype.appendButton = function(config) {
     this.$content.append(new Button(config).$el);
   };
 
@@ -66,6 +72,17 @@
   Calculator.prototype.render = function() {
     this.parseN();
     this.screen.render(this.n);
+  };
+
+  Calculator.prototype.extend = function(name, implementation) {
+    console.log(implementation.length);
+    this.appendButton({
+      value: name,
+      action: function() {
+        this.n = implementation(this.n).toString();
+        this.render();
+      }.bind(this)
+    });
   };
 
 
