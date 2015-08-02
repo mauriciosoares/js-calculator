@@ -127,7 +127,12 @@
   };
 
   Calculator.prototype.extend = function(name, implementation) {
-    console.log(implementation.length);
+    if(implementation.length === 1) {
+      this.simpleButton.apply(this, arguments);
+    }
+  };
+
+  Calculator.prototype.simpleButton = function(name, implementation) {
     this.appendButton({
       value: name,
       action: function() {
