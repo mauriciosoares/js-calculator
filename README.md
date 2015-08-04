@@ -20,7 +20,7 @@ var calculator = new Calculator('#calculator');
 
 ### Extensions
 
-By default, the calculator does not have any extension... You can easlily add any kind of operation you want using `calculator.extend`
+By default, the calculator does not have any operator... You can easlily add any kind of operation you want using `calculator.extend`
 
 There are 2 kind of extensions.
 
@@ -37,7 +37,7 @@ calculator.extend('COS', function(n) {
 });
 ```
 
-The `n` variable is the one being printed in the calculator.
+The `n` variable is the one currently printed on the calculator.
 
 #### Two steps operations
 
@@ -58,9 +58,11 @@ calculator.extend('*', function(n, cachedN) {
 });
 ```
 
-The `n` variable is the one being printed in the calculator *after you click in the result button*
-The `n` variable is the one being printed in the calculator *before you click in the extension operator*
+The `n` variable is the one currently printed in the calculator *after you click in the result button*
+The `cachedN` variable is the one currently printed in the calculator *after you click in the extension operator*
 
 Keep in mind that the `cachedN` variable, is the first number you digit in the calculator, that's why `cachedN` should always come first in your methods.
+
+All extensions **MUST** return a valid number.
 
 The *cool* thing here is that you can create your own kind of operators, and add it to the calculator at any time.
