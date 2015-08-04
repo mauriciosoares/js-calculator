@@ -41,16 +41,34 @@
     this.$content.append(this.screen.$el);
 
     var buttons = [];
-    buttons.push(this.getButtonConfig('C', this.onResetClick.bind(this)));
+    buttons.push(this.getButtonConfig({
+      value: 'C',
+      action: this.onResetClick.bind(this),
+      keyCode: 67
+    }));
 
     Array.apply(null, {length: 10}).forEach(function(item, index) {
-      // the third parameter determines that this button is a number,
+      // the isNumber parameter determines that this button is a number,
       // so I can differ it on the styling
-      buttons.push(this.getButtonConfig(index, this.onNumberClick.bind(this), true));
+      buttons.push(this.getButtonConfig({
+        value: index,
+        action: this.onNumberClick.bind(this),
+        isNumber: true,
+        keyCode: 48 + index
+      }));
     }.bind(this));
 
-    buttons.push(this.getButtonConfig('=', this.onResultClick.bind(this)));
-    buttons.push(this.getButtonConfig('.', this.onNumberClick.bind(this)));
+    buttons.push(this.getButtonConfig({
+      value: '=',
+      action: this.onResultClick.bind(this),
+      keyCode: 187
+    }));
+    buttons.push(this.getButtonConfig({
+      value: '.',
+      action: this.onNumberClick.bind(this),
+      isNumber: false,
+      keyCode: 190
+    }));
     buttons.forEach(this.appendButton.bind(this));
   };
 
@@ -79,12 +97,13 @@
     return parseFloat(n);
   };
 
-  Calculator.prototype.getButtonConfig = function(value, action, isNumber) {
+  Calculator.prototype.getButtonConfig = function(config) {
     // console.log(isNumber);
     return {
-      value: value,
-      action: action,
-      isNumber: isNumber ? ' is-number' : ''
+      value: config.value,
+      action: config.action,
+      isNumber: config.isNumber ? ' is-number' : '',
+      keyCode: config.keyCode ? config.keyCode : null
     };
   };
 
@@ -130,34 +149,42 @@
     this.screen.render(this.parsedN());
   };
 
-  Calculator.prototype.extend = function(value, implementation) {
-    if(implementation.length === 1) {
+  Calculator.prototype.extend = function(configs) {
+    if(configs.implementation.length === 1) {
       this.oneStepButton.apply(this, arguments);
-    } else if(implementation.length === 2) {
+    } else if(configs.implementation.length === 2) {
       this.twoStepsButton.apply(this, arguments);
     }
   };
 
-  Calculator.prototype.oneStepButton = function(value, implementation) {
-    var config = this.getButtonConfig(value, function() {
-        this.n = implementation(this.n).toString();
-        this.render();
-    }.bind(this));
+  Calculator.prototype.oneStepButton = function(configs) {
+    var buttonConfig = this.getButtonConfig({
+      value: configs.name,
+      action: function() {
+          this.n = configs.implementation(this.n).toString();
+          this.render();
+      }.bind(this),
+      keyCode: configs.keyCode
+    })
 
-    this.appendButton(config);
+    this.appendButton(buttonConfig);
   };
 
-  Calculator.prototype.twoStepsButton = function(value, implementation) {
-    var config = this.getButtonConfig(value, function() {
-      if(this.assignFlag) this.onResultClick();
+  Calculator.prototype.twoStepsButton = function(configs) {
+    var buttonConfig = this.getButtonConfig({
+      value: configs.name,
+      action: function() {
+        if(this.assignFlag) this.onResultClick();
 
-      this.cachedN = this.n;
-      this.cachedAction = implementation;
-      this.resultFlag = true;
-      this.assignFlag = true;
-    }.bind(this));
+        this.cachedN = this.n;
+        this.cachedAction = configs.implementation;
+        this.resultFlag = true;
+        this.assignFlag = true;
+      }.bind(this),
+      keyCode: configs.keyCode
+    });
 
-    this.appendButton(config);
+    this.appendButton(buttonConfig);
   };
 
 
