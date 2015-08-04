@@ -25,10 +25,8 @@
 
     if(keyEvents[this.options.keyCode]) throw new Error('There must not be 2 equal keyCodes: ' + this.options.keyCode);
 
-    keyEvents[this.options.keyCode] = {
-      action: this.options.action,
-      el: this.$el[0]
-    };
+
+    keyEvents[this.options.keyCode] = this.$el;
   };
 
   Button.prototype.bind = function() {
@@ -36,10 +34,8 @@
   };
 
   $(document).on('keyup', function(event) {
-    console.log(event.keyCode);
-    if(keyEvents[event.keyCode]) keyEvents[event.keyCode].action({
-      target: keyEvents[event.keyCode].el
-    });
+    debugger;
+    if(keyEvents[event.keyCode]) keyEvents[event.keyCode].click();
   });
 
   root.Button = Button;

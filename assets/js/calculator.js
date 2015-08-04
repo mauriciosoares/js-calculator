@@ -165,7 +165,7 @@
           this.render();
       }.bind(this),
       keyCode: configs.keyCode
-    })
+    });
 
     this.appendButton(buttonConfig);
   };
