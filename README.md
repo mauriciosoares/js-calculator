@@ -59,6 +59,7 @@ calculator.extend('*', function(n, cachedN) {
 ```
 
 The `n` variable is the one currently printed in the calculator *after you click in the result button*
+
 The `cachedN` variable is the one currently printed in the calculator *after you click in the extension operator*
 
 Keep in mind that the `cachedN` variable, is the first number you digit in the calculator, that's why `cachedN` should always come first in your methods.
