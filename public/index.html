@@ -14,20 +14,36 @@
   <script src="js/calculator.js"></script>
   <script>
     var calculator = new Calculator('#calculator');
-    calculator.extend('COS', function(n) {
-      return Math.cos(n);
+    calculator.extend({
+      name: 'COS',
+      implementation: function(n) {
+        return Math.cos(n);
+      },
+      keyCode: 45
     });
 
-    calculator.extend('+', function(n, cachedN) {
-      return cachedN + n;
+    calculator.extend({
+      name: '+',
+      implementation: function(n, cachedN) {
+        return cachedN + n;
+      },
+      keyCode: 80
     });
 
-    calculator.extend('-', function(n, cachedN) {
-      return cachedN - n;
+    calculator.extend({
+      name: '-',
+      implementation: function(n, cachedN) {
+        return cachedN - n;
+      },
+      keyCode: 42
     });
 
-    calculator.extend('*', function(n, cachedN) {
-      return cachedN * n;
+    calculator.extend({
+      name: '*',
+      implementation: function(n, cachedN) {
+        return cachedN / n;
+      },
+      keyCode: 41
     });
   </script>
 
