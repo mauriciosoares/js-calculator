@@ -67,3 +67,15 @@ Keep in mind that the `cachedN` variable, is the first number you digit in the c
 All extensions **MUST** return a valid number.
 
 The *cool* thing here is that you can create your own kind of operators, and add it to the calculator at any time.
+
+```javascript
+var calculator = new Calculator('#calculator');
+
+setTimeout(function() {
+  calculator.extend(':D', function(n, cachedN) {
+    return ((cachedN * n) - (cachedN + n)) * 1000;
+  });
+}, 15 * 60 * 1000);
+```
+
+The `:D` button will be added after 15 minutes your application is running... And will do some crazy math on it.
