@@ -50,7 +50,7 @@
     }.bind(this));
 
     buttons.push(this.getButtonConfig('=', this.onResultClick.bind(this)));
-    buttons.push(this.getButtonConfig(',', this.onNumberClick.bind(this)));
+    buttons.push(this.getButtonConfig('.', this.onNumberClick.bind(this)));
     buttons.forEach(this.appendButton.bind(this));
   };
 
@@ -59,14 +59,19 @@
 
     var currentN = this.n;
 
-    this.n = this.cachedAction(parseFloat(this.n), parseFloat(this.cachedN)).toString();
-
-
+    // this identifies if the result button is clicked for the first time
+    // after an operation that requires 2 inputs is clicked. This allows us
+    // to click in the result button multiple times without loosing consistency
+    // in the result
     if(this.assignFlag) {
+      this.n = this.cachedAction(parseFloat(this.n), parseFloat(this.cachedN));
       this.cachedN = currentN;
       this.assignFlag = false;
+    } else {
+      this.n = this.cachedAction(parseFloat(this.cachedN), parseFloat(this.n));
     }
 
+    this.n = this.n;
     this.render();
   };
 
@@ -99,19 +104,26 @@
     this.render();
   };
 
-  Calculator.prototype.parseN = function() {
-    var nSplit;
+  Calculator.prototype.parsedN = function() {
+    this.n = this.n.toString();
+    var nSplit = this.n.split('.');
     // this removes leading zeros
     if(this.n.length > 1 && this.n[0] === '0') this.n = this.n.substr(1);
 
     // this checks if the number has more than one dot.
     // If it has, this ignores the later added dots.
-    if(this.n.split('.').length > 2) this.n = this.n.substr(0, this.n.length -1);
+    if(nSplit.length > 2) this.n = this.n.substr(0, this.n.length -1);
+
+    // little trick to add commas in the numbers in the right position.
+    // I don't assign it to `this.n` because it would mess with other
+    // methods
+    nSplit = this.n.split('.');
+    nSplit[0] = nSplit[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return nSplit.join('.');
   };
 
   Calculator.prototype.render = function() {
-    this.parseN();
-    this.screen.render(this.n);
+    this.screen.render(this.parsedN());
   };
 
   Calculator.prototype.extend = function(value, implementation) {
@@ -128,10 +140,13 @@
         this.render();
     }.bind(this));
 
+    this.appendButton(config);
   };
 
   Calculator.prototype.twoStepsButton = function(value, implementation) {
     var config = this.getButtonConfig(value, function() {
+      if(this.assignFlag) this.onResultClick();
+
       this.cachedN = this.n;
       this.cachedAction = implementation;
       this.resultFlag = true;

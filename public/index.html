@@ -19,11 +19,15 @@
     });
 
     calculator.extend('+', function(n, cachedN) {
-      return n + cachedN;
+      return cachedN + n;
     });
 
     calculator.extend('-', function(n, cachedN) {
-      return n - cachedN;
+      return cachedN - n;
+    });
+
+    calculator.extend('*', function(n, cachedN) {
+      return cachedN * n;
     });
   </script>
 
