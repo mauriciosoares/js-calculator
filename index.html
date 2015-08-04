@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <link href='http://fonts.googleapis.com/css?family=Lato:300,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="https://rawgit.com/mauriciosoares/js-calculator/master/public/css/main.css">
 </head>
 <body>
 
   <div id="calculator" class="calculator"></div>
 
-  <script src="js/vendor/jquery/dist/jquery.js"></script>
-  <script src="js/calculator.js"></script>
+  <script src="https://rawgit.com/mauriciosoares/js-calculator/master/public/js/vendor/jquery/dist/jquery.js"></script>
+  <script src="https://rawgit.com/mauriciosoares/js-calculator/master/public/js/calculator.js"></script>
   <script>
     var calculator = new Calculator('#calculator');
     calculator.extend('COS', function(n) {
@@ -30,8 +30,5 @@
       return cachedN * n;
     });
   </script>
-
-
-  <script src="//localhost:35729/livereload.js"></script>
 </body>
 </html>
