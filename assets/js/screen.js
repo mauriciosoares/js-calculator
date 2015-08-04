@@ -1,7 +1,7 @@
 ;(function(root, $) {
   'use strict';
 
-  var CLASS_NAME = 'screen';
+  var CLASS_NAME = 'calculator-screen';
 
   function Screen() {
     this.prepare();

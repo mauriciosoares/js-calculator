@@ -13,7 +13,7 @@
   Button.prototype.prepare = function() {
     this.$el = $('<button />', {
       'data-value': this.options.value,
-      class: CLASS_NAME,
+      class: CLASS_NAME + this.options.isNumber,
       text: this.options.value
     });
   };

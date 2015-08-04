@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
+  <link href='http://fonts.googleapis.com/css?family=Lato:300,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 
-  <div id="calculator"></div>
+  <div id="calculator" class="calculator"></div>
 
   <script src="js/vendor/jquery/dist/jquery.js"></script>
   <script src="js/calculator.js"></script>
@@ -17,8 +18,12 @@
       return Math.cos(n);
     });
 
-    calculator.extend('+', function(n, nextN) {
-      return n + nextN;
+    calculator.extend('+', function(n, cachedN) {
+      return n + cachedN;
+    });
+
+    calculator.extend('-', function(n, cachedN) {
+      return n - cachedN;
     });
   </script>
 

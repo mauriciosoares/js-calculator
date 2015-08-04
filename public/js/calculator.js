@@ -13,7 +13,7 @@
   Button.prototype.prepare = function() {
     this.$el = $('<button />', {
       'data-value': this.options.value,
-      class: CLASS_NAME,
+      class: CLASS_NAME + this.options.isNumber,
       text: this.options.value
     });
   };
@@ -28,7 +28,7 @@
 ;(function(root, $) {
   'use strict';
 
-  var CLASS_NAME = 'screen';
+  var CLASS_NAME = 'calculator-screen';
 
   function Screen() {
     this.prepare();
@@ -61,6 +61,28 @@
     this.render();
   }
 
+  Calculator.prototype.prepare = function() {
+    this.screen = new Screen();
+    this.resetValues();
+  };
+
+  Calculator.prototype.resetValues = function() {
+    this.n = '0';
+    // this value is the one saved when you do an operation that requires 2 numbers
+    this.cachedN = false;
+
+    // this action is the implementation of the last operation triggered
+    this.cachedAction = false;
+
+    // this flag is to identify that the screen has to be updated since
+    // a 2 number operation was clicked
+    this.resultFlag = false;
+
+    // this is a trick to persist the cached value to allow the user to click
+    // in the result button multiple times
+    this.assignFlag = false;
+  };
+
   /*
     This guy is kinda messy, but it was a good approach to
     dynamically render the default buttons.
@@ -71,22 +93,41 @@
     this.$content.append(this.screen.$el);
 
     var buttons = [];
-      buttons.push(this.getButtonConfig('C', this.onResetClick.bind(this)));
-      buttons.push(this.getButtonConfig('=', function() {}));
-
+    buttons.push(this.getButtonConfig('C', this.onResetClick.bind(this)));
 
     Array.apply(null, {length: 10}).forEach(function(item, index) {
-      buttons.push(this.getButtonConfig(index, this.onNumberClick.bind(this)));
+      // the third parameter determines that this button is a number,
+      // so I can differ it on the styling
+      buttons.push(this.getButtonConfig(index, this.onNumberClick.bind(this), true));
     }.bind(this));
 
-    buttons.push(this.getButtonConfig('.', this.onNumberClick.bind(this)));
+    buttons.push(this.getButtonConfig('=', this.onResultClick.bind(this)));
+    buttons.push(this.getButtonConfig(',', this.onNumberClick.bind(this)));
     buttons.forEach(this.appendButton.bind(this));
   };
 
-  Calculator.prototype.getButtonConfig = function(value, action) {
+  Calculator.prototype.onResultClick = function() {
+    if(!this.cachedN) return this.render();
+
+    var currentN = this.n;
+
+    this.n = this.cachedAction(parseFloat(this.n), parseFloat(this.cachedN)).toString();
+
+
+    if(this.assignFlag) {
+      this.cachedN = currentN;
+      this.assignFlag = false;
+    }
+
+    this.render();
+  };
+
+  Calculator.prototype.getButtonConfig = function(value, action, isNumber) {
+    // console.log(isNumber);
     return {
       value: value,
-      action: action
+      action: action,
+      isNumber: isNumber ? ' is-number' : ''
     };
   };
 
@@ -94,17 +135,16 @@
     this.$content.append(new Button(config).$el);
   };
 
-  Calculator.prototype.prepare = function() {
-    this.screen = new Screen();
-    this.n = '0';
-  };
-
   Calculator.prototype.onResetClick = function() {
-    this.n = '0';
+    this.resetValues();
     this.render();
   };
 
   Calculator.prototype.onNumberClick = function(event) {
+    if(this.resultFlag) {
+      this.n = '0';
+      this.resultFlag = false;
+    }
     var value = $(event.target).data('value');
 
     this.n += value;
@@ -126,20 +166,31 @@
     this.screen.render(this.n);
   };
 
-  Calculator.prototype.extend = function(name, implementation) {
+  Calculator.prototype.extend = function(value, implementation) {
     if(implementation.length === 1) {
-      this.simpleButton.apply(this, arguments);
+      this.oneStepButton.apply(this, arguments);
+    } else if(implementation.length === 2) {
+      this.twoStepsButton.apply(this, arguments);
     }
   };
 
-  Calculator.prototype.simpleButton = function(name, implementation) {
-    this.appendButton({
-      value: name,
-      action: function() {
+  Calculator.prototype.oneStepButton = function(value, implementation) {
+    var config = this.getButtonConfig(value, function() {
         this.n = implementation(this.n).toString();
         this.render();
-      }.bind(this)
-    });
+    }.bind(this));
+
+  };
+
+  Calculator.prototype.twoStepsButton = function(value, implementation) {
+    var config = this.getButtonConfig(value, function() {
+      this.cachedN = this.n;
+      this.cachedAction = implementation;
+      this.resultFlag = true;
+      this.assignFlag = true;
+    }.bind(this));
+
+    this.appendButton(config);
   };
 
 
