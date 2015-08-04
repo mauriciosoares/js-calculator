@@ -116,15 +116,19 @@
     // to click in the result button multiple times without loosing consistency
     // in the result
     if(this.assignFlag) {
-      this.n = this.cachedAction(parseFloat(this.n), parseFloat(this.cachedN));
+      this.n = this.cachedAction(this.toFloat(this.n), this.toFloat(this.cachedN));
       this.cachedN = currentN;
       this.assignFlag = false;
     } else {
-      this.n = this.cachedAction(parseFloat(this.cachedN), parseFloat(this.n));
+      this.n = this.cachedAction(this.toFloat(this.cachedN), this.toFloat(this.n));
     }
 
     this.n = this.n;
     this.render();
+  };
+
+  Calculator.prototype.toFloat = function(n) {
+    return parseFloat(n);
   };
 
   Calculator.prototype.getButtonConfig = function(value, action, isNumber) {
