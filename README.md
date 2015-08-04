@@ -1,6 +1,12 @@
 # JS Calculator
 
-An extensible calculator written in Javascript.
+An extendable calculator written in Javascript.
+
+## Idea
+
+To create a calculator that's easy to extend and as similar as possible to a real one.
+
+Keep in mind that Javascript has some weird bugs when handling calculaltions, and that might happen some times when you are playing around with it.
 
 ## Usage
 
