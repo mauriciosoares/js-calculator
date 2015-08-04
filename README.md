@@ -64,9 +64,13 @@ The `cachedN` variable is the one currently printed in the calculator *after you
 
 Keep in mind that the `cachedN` variable, is the first number you digit in the calculator, that's why `cachedN` should always come first in your methods.
 
-All extensions **MUST** return a valid number.
+#### Notes
 
-The *cool* thing here is that you can create your own kind of operators, and add it to the calculator at any time.
+* All extensions **MUST** return a valid number.
+
+* The **number of arguments** differs a one step operation from a two steps operation
+
+* You can create your own kind of operators, and add it to the calculator at any time.
 
 ```javascript
 var calculator = new Calculator('#calculator');
