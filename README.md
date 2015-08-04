@@ -70,7 +70,7 @@ Keep in mind that the `cachedN` variable, is the first number you digit in the c
 
 * The **number of arguments** differs a one step operation from a two steps operation
 
-You can create your own kind of operators, and add it to the calculator at any time.
+* You can create your own kind of operators, and add it to the calculator at any time.
 
 ```javascript
 var calculator = new Calculator('#calculator');
