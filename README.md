@@ -86,7 +86,7 @@ Keep in mind that the `cachedN` variable, is the first number you digit in the c
 
 * The **number of arguments** differs a one step operation from a two steps operation
 
-* The keyCode parameter is optional, if you pass it, than when the corresponding key gets pressed, the button will be automatically pressed. **This does not supports 2 steps keys like "shift + T"**
+* The keyCode parameter is optional, if you pass it, then when the corresponding key gets pressed, the button will be automatically pressed. **This does not supports 2 steps keys like "shift + T"**
 
 * You can create your own kind of operators, and add it to the calculator at any time.
 
