@@ -34,7 +34,6 @@
   };
 
   $(document).on('keyup', function(event) {
-    debugger;
     if(keyEvents[event.keyCode]) keyEvents[event.keyCode].click();
   });
 
