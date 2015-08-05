@@ -47,7 +47,10 @@
       keyCode: 67
     }));
 
-    Array.apply(null, {length: 10}).forEach(function(item, index) {
+    // I was using this approach before: Array.apply(null, {length: 10})
+    // But for some reason this was breaking in node.js, since apply's
+    // second argument should be an array, but in the browser it does not
+    [0,1,2,3,4,5,6,7,8,9].forEach(function(item, index) {
       // the isNumber parameter determines that this button is a number,
       // so I can differ it on the styling
       buttons.push(this.getButtonConfig({
@@ -98,7 +101,6 @@
   };
 
   Calculator.prototype.getButtonConfig = function(config) {
-    // console.log(isNumber);
     return {
       value: config.value,
       action: config.action,
