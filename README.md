@@ -32,8 +32,12 @@ These are the ones that the value is retrieved right after you click in the butt
 var calculator = new Calculator('#calculator');
 
 // COS is the text being printed on the button
-calculator.extend('COS', function(n) {
-  return Math.cos(n);
+calculator.extend({
+  name: 'COS',
+  implementation: function(n) {
+    return Math.cos(n);
+  },
+  keyCode: 1
 });
 ```
 
@@ -45,16 +49,28 @@ These are the ones that requires 2 numbers to work, like the tradicional *plus* 
 
 ```javascript
 var calculator = new Calculator('#calculator');
-calculator.extend('+', function(n, cachedN) {
-  return cachedN + n;
+calculator.extend({
+  name: '+',
+  implementation: function(n, cachedN) {
+    return cachedN + n;
+  },
+  keyCode: 80
 });
 
-calculator.extend('-', function(n, cachedN) {
-  return cachedN - n;
+calculator.extend({
+  name: '-',
+  implementation: function(n, cachedN) {
+    return cachedN - n;
+  },
+  keyCode: 42
 });
 
-calculator.extend('*', function(n, cachedN) {
-  return cachedN * n;
+calculator.extend({
+  name: '*',
+  implementation: function(n, cachedN) {
+    return cachedN / n;
+  },
+  keyCode: 41
 });
 ```
 
@@ -69,6 +85,8 @@ Keep in mind that the `cachedN` variable, is the first number you digit in the c
 * All extensions **MUST** return a valid number.
 
 * The **number of arguments** differs a one step operation from a two steps operation
+
+* The keyCode parameter is optional, if you pass it, than when the corresponding key gets pressed, the button will be automatically pressed. **This does not supports 2 steps keys like "shift + T"**
 
 * You can create your own kind of operators, and add it to the calculator at any time.
 
