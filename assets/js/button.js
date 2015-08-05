@@ -22,10 +22,6 @@
 
   Button.prototype.checkKeyCode = function() {
     if(!this.options.keyCode) return;
-
-    if(keyEvents[this.options.keyCode]) throw new Error('There must not be 2 equal keyCodes: ' + this.options.keyCode);
-
-
     keyEvents[this.options.keyCode] = this.$el;
   };
 
