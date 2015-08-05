@@ -3,6 +3,7 @@ describe('Testing Button', function() {
     var button = new Button({});
     expect(button instanceof Button).toBeTruthy();
   });
+
   it('Should create a jquery instance inside the $el index of the instance', function() {
     var button = new Button({});
     expect(button.$el instanceof jQuery).toBeTruthy();
