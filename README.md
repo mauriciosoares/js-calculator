@@ -105,3 +105,14 @@ setTimeout(function() {
 ```
 
 The `:D` button will be added after 15 minutes your application is running... And will do some crazy math on it.
+
+## Tests
+
+To check the tests run the following commands
+
+```
+npm install
+npm test
+```
+
+😁
