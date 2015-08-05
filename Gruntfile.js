@@ -7,6 +7,7 @@ module.exports = function(grunt) {
     'grunt-contrib-connect',
     'grunt-contrib-jshint',
     'grunt-contrib-watch',
+    'grunt-contrib-jasmine',
     'grunt-sass'
   ];
 
@@ -76,10 +77,24 @@ module.exports = function(grunt) {
     }
   };
 
+  // =============================================
+  // jasmine
+  config.jasmine = {};
+  config.jasmine.test = {
+    src: [
+      'public/js/vendor/jquery/dist/jquery.js',
+      'public/js/calculator.js'
+    ],
+    options: {
+      specs: 'tests/*Spec.js'
+    }
+  }
+
   // loads all tasks
   tasks.forEach(grunt.loadNpmTasks);
 
   grunt.initConfig(config);
 
   grunt.registerTask('develop', ['connect', 'watch'])
+  grunt.registerTask('test', ['jasmine:test'])
 }
