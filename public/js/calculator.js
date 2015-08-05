@@ -30,7 +30,7 @@
   };
 
   $(document).on('keyup', function(event) {
-    if(keyEvents[event.keyCode]) keyEvents[event.keyCode].click();
+    if(keyEvents[event.which]) keyEvents[event.which].click();
   });
 
   root.Button = Button;
