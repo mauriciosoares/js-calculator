@@ -94,8 +94,12 @@ Keep in mind that the `cachedN` variable, is the first number you digit in the c
 var calculator = new Calculator('#calculator');
 
 setTimeout(function() {
-  calculator.extend(':D', function(n, cachedN) {
-    return ((cachedN * n) - (cachedN + n)) * 1000;
+  calculator.extend({
+    name: 'COS',
+    implementation: function(n) {
+      return ((cachedN * n) - (cachedN + n)) * 1000;
+    },
+    keyCode: 1
   });
 }, 15 * 60 * 1000);
 ```
