@@ -144,7 +144,11 @@
     // methods
     nSplit = this.n.split('.');
     nSplit[0] = nSplit[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return nSplit.join('.');
+    nSplit = nSplit.join('.');
+
+    // if the . button was first pressed, this adds a 0 in front of everything
+    nSplit = (nSplit[0] === '.') ? '0' + nSplit : nSplit;
+    return nSplit;
   };
 
   Calculator.prototype.render = function() {
